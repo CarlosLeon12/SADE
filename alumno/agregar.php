@@ -7,7 +7,7 @@
     <title>SADE</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../principal/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
     <style>
@@ -223,7 +223,7 @@
         <h1 class="ColorLetra">SADE</h1>
         <ul>
             <li><a href="../principal/lobi.php">Inicio</a></li>
-            <li><a href="../alumno/registro.php">Alumnos</a></li>
+            <li><a href="registro.php">Alumnos</a></li>
             <li><a href="maestros.html">Maestros</a></li>
             <li><a href="materias.html">Materias</a></li>
             <li><a href="grados.html">Grados</a></li>

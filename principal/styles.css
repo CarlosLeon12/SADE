@@ -1,19 +1,14 @@
 /* General Styles */
 body {
   margin: 0;
-  font-family: 'Console';
-  overflow: hidden; 
-  
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  overflow: hidden;
 }
 
 .container {
   display: flex;
   height: 100vh;
-  overflow: hidden; 
-}
-
-.ColorLetra{
-  color: #5bff61;
 }
 
 .sidebar {
@@ -21,11 +16,13 @@ body {
   color: #252525;
   width: 200px;
   padding: 8px;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .sidebar h1 {
   margin-bottom: 20px;
+  font-size: 24px;
+  color: #5bff61;
 }
 
 .sidebar ul {
@@ -43,7 +40,7 @@ body {
   display: block;
   padding: 10px;
   border-radius: 5px;
-  font-size: 28px;
+  font-size: 22px;
 }
 
 .sidebar a:hover {
@@ -53,28 +50,47 @@ body {
 .content {
   flex-grow: 1;
   padding: 20px;
-  overflow: hidden; 
+  margin-left: 220px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.contenedor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.imagen {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.boton-salida {
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: none;
+  font-size: 25px;
+  cursor: pointer;
+  font-family: inherit;
+}
 
 fieldset {
-  border: 2px solid rgba(255, 255, 255, 0.7); /* Borde difuminado en blanco */
+  border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 8px;
   padding: 20px;
   background-color: #ffffff;
   margin-bottom: 20px;
-  box-shadow: 0 2px 12px #5bff61; /* Sombra más prominente */
-  box-sizing: border-box; /* Incluye padding y borde en el ancho total */
-  position: relative; /* Necesario para el borde difuminado */
-  overflow: hidden; /* Evita barras de desplazamiento dentro del fieldset */
+  box-shadow: 0 2px 12px #5bff61;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 }
 
-.imagen{
-  height: 30px;
-  width: 30px;
-}
-
-/* Estilo del borde */
 fieldset::before {
   content: '';
   position: absolute;
@@ -82,24 +98,59 @@ fieldset::before {
   left: 2px;
   right: 2px;
   bottom: 2px;
-  border: 2px solid rgba(255, 255, 255, 0.5); /* Borde adicional difuminado */
+  border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 8px;
-  z-index: -1; /* Coloca el borde adicional detrás del contenido */
+  z-index: -1;
 }
 
 .complementArea {
-  height: 25px; /* Ajusta la altura según sea necesario */
+  height: 25px;
 }
 
 .area2 {
-  height: 548px; /* Ajusta la altura según sea necesario */
-  overflow: hidden; /* Evita barras de desplazamiento dentro de esta área */
+  height: 548px;
+  overflow: hidden;
 }
 
-.fondos{
-  width: 800px;
-  height: 120px;
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
+.btn-agregar {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  float: right;
+  margin-bottom: 10px;
+}
 
+.btn-agregar:hover {
+  background-color: #45a049;
+}
 
+.btn-opcion {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+
+.btn-opcion:hover {
+  color: #555;
+}
+
+.tit {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.input-busqueda {
+  width: 30% !important;
+}
