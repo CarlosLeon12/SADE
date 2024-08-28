@@ -1,0 +1,105 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Console';
+  overflow: hidden; 
+  
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden; 
+}
+
+.ColorLetra{
+  color: #5bff61;
+}
+
+.sidebar {
+  background-color: #333;
+  color: #252525;
+  width: 200px;
+  padding: 8px;
+  overflow-y: auto; 
+}
+
+.sidebar h1 {
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 28px;
+}
+
+.sidebar a:hover {
+  background-color: #555;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow: hidden; 
+}
+
+
+fieldset {
+  border: 2px solid rgba(255, 255, 255, 0.7); /* Borde difuminado en blanco */
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px #5bff61; /* Sombra más prominente */
+  box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+  position: relative; /* Necesario para el borde difuminado */
+  overflow: hidden; /* Evita barras de desplazamiento dentro del fieldset */
+}
+
+.imagen{
+  height: 30px;
+  width: 30px;
+}
+
+/* Estilo del borde */
+fieldset::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 2px solid rgba(255, 255, 255, 0.5); /* Borde adicional difuminado */
+  border-radius: 8px;
+  z-index: -1; /* Coloca el borde adicional detrás del contenido */
+}
+
+.complementArea {
+  height: 25px; /* Ajusta la altura según sea necesario */
+}
+
+.area2 {
+  height: 548px; /* Ajusta la altura según sea necesario */
+  overflow: hidden; /* Evita barras de desplazamiento dentro de esta área */
+}
+
+.fondos{
+  width: 800px;
+  height: 120px;
+}
+
+
+
