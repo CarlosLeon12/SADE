@@ -54,7 +54,7 @@
         <div class="area2 scrollable-area">
             <!-- Formulario para alumnos -->
             <div class="form-section">
-                <h2 class="textColor">Agregar Datos del Alumno</h2>
+                <h2 class="textColor">Agregar Datos del Maestro</h2>
                 <form id="formulario-datos">
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -62,82 +62,41 @@
                             <input type="number" class="form-control" id="codigo" name="codigo" required>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="cui">CUI</label>
+                            <label for="dpi">DPI</label>
                             <input type="number" class="form-control" id="cui" name="cui" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="grado">Grado</label>
-                            <select class="form-control" id="grado" name="grado" required>
-                                <option value="">Seleccione un grado</option>
-                                <option value="1">Primero</option>
-                                <option value="2">Segundo</option>
-                                <option value="3">Tercero</option>
-                                <option value="4">Cuarto</option>
-                                <option value="5">Quinto</option>
-                                <option value="6">Sexto</option>
-                            </select>
+                            <label for="codigo">Nombres</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="nombres">Nombres</label>
-                            <input type="text" class="form-control" id="nombres" name="nombres" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="apellidos">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="fecha-nacimiento">Fecha de Nacimiento</label>
-                            <input type="date" class="form-control" id="fecha-nacimiento" name="fecha-nacimiento" required>
+                            <label for="cui">Apellidos</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" required>
                         </div>
                     </div>
                    
                     <div class="divider"></div>
 
                     <!-- Formulario para datos del padre/madre sin encapsulamiento -->
-<h2 class="textColor">Agregar Datos del Padre/Madre</h2>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="dpi">DPI</label>
-        <input type="number" class="form-control" id="dpi" name="dpi" required>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="parentesco">Parentesco</label>
-        <select class="form-control" id="parentesco" name="parentesco" required>
-            <option value="">Seleccione un parentesco</option>
-            <option value="Padre">Padre</option>
-            <option value="Madre">Madre</option>
-            <option value="Tia">Tía</option>
-            <option value="Tio">Tío</option>
-            <option value="Abuelo">Abuelo</option>
-            <option value="Abuela">Abuela</option>
-        </select>
-    </div>
-</div>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="nombre-padre">Nombre</label>
-        <input type="text" class="form-control" id="nombre-padre" name="nombre-padre" required>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="apellido-padre">Apellido</label>
-        <input type="text" class="form-control" id="apellido-padre" name="apellido-padre" required>
-    </div>
-</div>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="telefono">Teléfono</label>
-        <input type="number" class="form-control" id="telefono" name="telefono" required>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="direccion">Dirección</label>
-        <input type="text" class="form-control" id="direccion" name="direccion" required>
-    </div>
-</div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="nombre-padre">Telefono</label>
+                            <input type="number" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="apellido-padre">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" id="nacimiento" name="nacimiento" required>
+                        </div>
+                    </div>
 
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="apellido-padre">Direccion</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                    </div>
 
                     <!-- Botón para guardar todos los datos -->
                     <div class="text-right">

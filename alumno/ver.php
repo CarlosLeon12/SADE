@@ -28,7 +28,7 @@
         <ul>
             <li><a href="../principal/lobi.php">Inicio</a></li>
             <li><a href="../alumno/registro.php">Alumnos</a></li>
-            <li><a href="maestros.html">Maestros</a></li>
+            <li><a href="../maestro/Maestros.php">Maestros</a></li>
             <li><a href="materias.html">Materias</a></li>
             <li><a href="grados.html">Grados</a></li>
             <li><a href="promedios.html">Promedios</a></li>
@@ -56,7 +56,7 @@
         <div class="area2 scrollable-area">
             <!-- Formulario para alumnos -->
             <div class="form-section">
-                <h2 class="textColor">Datos del Alumno</h2>
+                <h2 class="textColor">Ver Datos del Alumno</h2>
                 <form id="formulario-datos">
                     <div class="form-row">
                         <div class="form-group col-md-6">

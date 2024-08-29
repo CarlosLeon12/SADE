@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
    
     <!-- FontAwesome CSS for icons -->
@@ -48,10 +48,10 @@
 
         <div class="area2">
             <br>
-            <h1 class="tit">Alumnos</h1>
+            <h1 class="tit">Maestros</h1>
             <div class="contenedor">
                 <input class="form-control input-busqueda" type="text" placeholder="Buscar">
-                <button class="btn-agregar" onclick="window.location.href='agregar.php';">Agregar</button>
+                <button class="btn-agregar" onclick="window.location.href='agregarMaestro.php';">Agregar</button>
             </div>
             <div class="table-container">
                 <table class="table table-striped table-hover">
@@ -61,34 +61,32 @@
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
-                            <th>Edad</th>
-                            <th>Promedio</th>
                             <th>Grado</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
 // Simulación de datos (Elimina esto cuando conectes con tu base de datos)
-$alumnos = [
-    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero'],
-    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo'],
+$maestros = [
+    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Mario', 'apellido' => 'Alvarez', 'grado' => 6, 'estado' => 'activo',],
+    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Osmar', 'apellido' => 'Medina', 'grado' => 2, 'estado' => 'activo',],
     // Agrega más datos aquí
 ];
 
-foreach ($alumnos as $alumno) {
+foreach ($maestros as $maestro) {
     echo '<tr>';
-    echo '<td>' . htmlspecialchars($alumno['id']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['codigo']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['nombre']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['apellido']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['edad']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['promedio']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['grado']) . '</td>';
+    echo '<td>' . htmlspecialchars($maestro['id']) . '</td>';
+    echo '<td>' . htmlspecialchars($maestro['codigo']) . '</td>';
+    echo '<td>' . htmlspecialchars($maestro['nombre']) . '</td>';
+    echo '<td>' . htmlspecialchars($maestro['apellido']) . '</td>';
+    echo '<td>' . htmlspecialchars($maestro['grado']) . '</td>';
+    echo '<td>' . htmlspecialchars($maestro['estado']) . '</td>';
     echo '<td>';
-    echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'ver.php?id=' . htmlspecialchars($alumno['id']) . '\'">';
+    echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'verMaestro.php?id=' . htmlspecialchars($maestro['id']) . '\'">';
     echo '<i class="fas fa-eye"></i></button>';
-    echo '<button class="btn-opcion" title="Eliminar" onclick="if(confirm(\'¿Estás seguro de que deseas eliminar este registro?\')) { window.location.href=\'eliminar.php?id=' . htmlspecialchars($alumno['id']) . '\'; }">';
+    echo '<button class="btn-opcion" title="Eliminar" onclick="if(confirm(\'¿Estás seguro de que deseas eliminar este registro?\')) { window.location.href=\'eliminar.php?id=' . htmlspecialchars($maestro['id']) . '\'; }">';
     echo '<i class="fas fa-trash-alt"></i></button>';
     echo '</td>';
     echo '</tr>';
