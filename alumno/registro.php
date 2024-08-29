@@ -68,30 +68,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        // Simulación de datos (Elimina esto cuando conectes con tu base de datos)
-                        $alumnos = [
-                            ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero'],
-                            ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo'],
-                            // Agrega más datos aquí
-                        ];
+                    <?php
+// Simulación de datos (Elimina esto cuando conectes con tu base de datos)
+$alumnos = [
+    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero'],
+    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo'],
+    // Agrega más datos aquí
+];
 
-                        foreach ($alumnos as $alumno) {
-                            echo '<tr>';
-                            echo '<td>' . htmlspecialchars($alumno['id']) . '</td>';
-                            echo '<td>' . htmlspecialchars($alumno['codigo']) . '</td>';
-                            echo '<td>' . htmlspecialchars($alumno['nombre']) . '</td>';
-                            echo '<td>' . htmlspecialchars($alumno['apellido']) . '</td>';
-                            echo '<td>' . htmlspecialchars($alumno['edad']) . '</td>';
-                            echo '<td>' . htmlspecialchars($alumno['promedio']) . '</td>';
-                            echo '<td>' . htmlspecialchars($alumno['grado']) . '</td>';
-                            echo '<td>';
-                            echo '<button class="btn-opcion" title="Ver"><i class="fas fa-eye"></i></button>';
-                            echo '<button class="btn-opcion" title="Eliminar"><i class="fas fa-trash-alt"></i></button>';
-                            echo '</td>';
-                            echo '</tr>';
-                        }
-                        ?>
+foreach ($alumnos as $alumno) {
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($alumno['id']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['codigo']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['nombre']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['apellido']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['edad']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['promedio']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['grado']) . '</td>';
+    echo '<td>';
+    echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'ver.php?id=' . htmlspecialchars($alumno['id']) . '\'">';
+    echo '<i class="fas fa-eye"></i></button>';
+    echo '<button class="btn-opcion" title="Eliminar" onclick="if(confirm(\'¿Estás seguro de que deseas eliminar este registro?\')) { window.location.href=\'eliminar.php?id=' . htmlspecialchars($alumno['id']) . '\'; }">';
+    echo '<i class="fas fa-trash-alt"></i></button>';
+    echo '</td>';
+    echo '</tr>';
+}
+?>
+
                     </tbody>
                 </table>
             </div>

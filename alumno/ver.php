@@ -15,9 +15,11 @@
 </head>
 
 <style>
+
     .textColor{
-        color: #007bff;
+        color: rgb(0, 228, 49);
     }
+
 </style>
 
 <body>
@@ -141,7 +143,7 @@
 
                     <!-- Botón para guardar todos los datos -->
                     <div class="text-right">
-                        <button type="submit" class="btn-guardar">Guardar todos los datos</button>
+                        <button type="submit" class="btn-guardar">Guardar Cambios</button>
                     </div>
                 </form>
             </div>
