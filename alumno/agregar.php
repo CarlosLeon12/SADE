@@ -59,32 +59,16 @@
                 <form action="../inserciones.php" method="POST" id="ingresarAlumno">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="codigo">Código</label>
-                            <input type="number" class="form-control" id="codigo" name="codigo" required>
-                        </div>
-                        <div class="form-group col-md-6">
                             <label for="cui">CUI</label>
                             <input type="number" class="form-control" id="cui" name="cui" required>
                         </div>
-                    </div>
-                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="grado">Grado</label>
-                            <select class="form-control" id="grado" name="grado" required>
-                                <option value="">Seleccione un grado</option>
-                                <option value="1">Primero</option>
-                                <option value="2">Segundo</option>
-                                <option value="3">Tercero</option>
-                                <option value="4">Cuarto</option>
-                                <option value="5">Quinto</option>
-                                <option value="6">Sexto</option>
-                            </select>
-                        </div>
+
                         <div class="form-group col-md-6">
                             <label for="nombres">Nombres</label>
                             <input type="text" class="form-control" id="nombres" name="nombres" required>
                         </div>
                     </div>
+            
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="apellidos">Apellidos</label>
@@ -97,17 +81,10 @@
                     </div>
 
                     <div class="form-row">
-
                     <div class="form-group col-md-6">
-                            <label for="seccion">Seccion</label>
-                            <select class="form-control" id="seccion" name="seccion" required>
-                                <option value="">Seleccione un grado</option>
-                                <option value="1">A</option>
-                                <option value="2">B</option>
-                                <option value="3">C</option>
-                            </select>
+                            <label for="apellidos">Estado</label>
+                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
                         </div>
-
                     </div>
                     
 
@@ -121,34 +98,27 @@
                             <label for="dpi">DPI</label>
                             <input type="number" class="form-control" id="dpi" name="dpi" required>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="parentesco">Parentesco</label>
-                            <select class="form-control" id="parentesco" name="parentesco" required>
-                                <option value="">Seleccione un parentesco</option>
-                                <option value="Padre">Padre</option>
-                                <option value="Madre">Madre</option>
-                                <option value="Tia">Tía</option>
-                                <option value="Tio">Tío</option>
-                                <option value="Abuelo">Abuelo</option>
-                                <option value="Abuela">Abuela</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
+
                         <div class="form-group col-md-6">
                             <label for="nombre-padre">Nombre</label>
                             <input type="text" class="form-control" id="nombre-padre" name="nombre-padre" required>
                         </div>
+                        
+                    </div>
+                    <div class="form-row">
+                        
                         <div class="form-group col-md-6">
                             <label for="apellido-padre">Apellido</label>
                             <input type="text" class="form-control" id="apellido-padre" name="apellido-padre" required>
                         </div>
-                    </div>
-                    <div class="form-row">
+
                         <div class="form-group col-md-6">
                             <label for="telefono">Teléfono</label>
                             <input type="number" class="form-control" id="telefono" name="telefono" required>
                         </div>
+                    </div>
+                    <div class="form-row">
+                        
                         <div class="form-group col-md-6">
                             <label for="direccion">Dirección</label>
                             <input type="text" class="form-control" id="direccion" name="direccion" required>
