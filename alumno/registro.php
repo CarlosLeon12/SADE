@@ -64,6 +64,7 @@
                             <th>Edad</th>
                             <th>Promedio</th>
                             <th>Grado</th>
+                            <th>Seccion</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -71,8 +72,8 @@
                     <?php
 // Simulación de datos (Elimina esto cuando conectes con tu base de datos)
 $alumnos = [
-    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero'],
-    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo'],
+    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero', 'seccion' => 'A'],
+    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo', 'seccion' => 'A'],
     // Agrega más datos aquí
 ];
 
@@ -85,6 +86,7 @@ foreach ($alumnos as $alumno) {
     echo '<td>' . htmlspecialchars($alumno['edad']) . '</td>';
     echo '<td>' . htmlspecialchars($alumno['promedio']) . '</td>';
     echo '<td>' . htmlspecialchars($alumno['grado']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['seccion']) . '</td>';
     echo '<td>';
     echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'ver.php?id=' . htmlspecialchars($alumno['id']) . '\'">';
     echo '<i class="fas fa-eye"></i></button>';
