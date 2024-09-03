@@ -67,7 +67,7 @@
                             <input type="number" class="form-control" id="cui" name="cui" required>
                         </div>
                     </div>
-                    <div class="form-row">
+                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="grado">Grado</label>
                             <select class="form-control" id="grado" name="grado" required>
@@ -95,6 +95,21 @@
                             <input type="date" class="form-control" id="fecha-nacimiento" name="fecha-nacimiento" required>
                         </div>
                     </div>
+
+                    <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                            <label for="seccion">Seccion</label>
+                            <select class="form-control" id="seccion" name="seccion" required>
+                                <option value="">Seleccione un grado</option>
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                                <option value="3">C</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    
 
                     <!-- Divider between forms -->
                     <div class="divider"></div>

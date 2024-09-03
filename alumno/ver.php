@@ -15,11 +15,9 @@
 </head>
 
 <style>
-
-    .textColor{
+   .textColor{
         color: rgb(0, 228, 49);
     }
-
 </style>
 
 <body>
@@ -57,7 +55,8 @@
             <!-- Formulario para alumnos -->
             <div class="form-section">
                 <h2 class="textColor">Ver Datos del Alumno</h2>
-                <form id="formulario-datos">
+                <!---------------------------Aqui  mediante el post se envia el formulario-->
+                <form action="../inserciones.php" method="POST" id="ingresarAlumno">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="codigo">Código</label>
@@ -68,7 +67,7 @@
                             <input type="number" class="form-control" id="cui" name="cui" required>
                         </div>
                     </div>
-                    <div class="form-row">
+                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="grado">Grado</label>
                             <select class="form-control" id="grado" name="grado" required>
@@ -96,54 +95,69 @@
                             <input type="date" class="form-control" id="fecha-nacimiento" name="fecha-nacimiento" required>
                         </div>
                     </div>
-                   
+
+                    <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                            <label for="seccion">Seccion</label>
+                            <select class="form-control" id="seccion" name="seccion" required>
+                                <option value="">Seleccione un grado</option>
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                                <option value="3">C</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    
+
+                    <!-- Divider between forms -->
                     <div class="divider"></div>
 
-                    <!-- Formulario para datos del padre/madre sin encapsulamiento -->
-<h2 class="textColor">Datos del Padre/Madre</h2>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="dpi">DPI</label>
-        <input type="number" class="form-control" id="dpi" name="dpi" required>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="parentesco">Parentesco</label>
-        <select class="form-control" id="parentesco" name="parentesco" required>
-            <option value="">Seleccione un parentesco</option>
-            <option value="Padre">Padre</option>
-            <option value="Madre">Madre</option>
-            <option value="Tia">Tía</option>
-            <option value="Tio">Tío</option>
-            <option value="Abuelo">Abuelo</option>
-            <option value="Abuela">Abuela</option>
-        </select>
-    </div>
-</div>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="nombre-padre">Nombre</label>
-        <input type="text" class="form-control" id="nombre-padre" name="nombre-padre" required>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="apellido-padre">Apellido</label>
-        <input type="text" class="form-control" id="apellido-padre" name="apellido-padre" required>
-    </div>
-</div>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="telefono">Teléfono</label>
-        <input type="number" class="form-control" id="telefono" name="telefono" required>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="direccion">Dirección</label>
-        <input type="text" class="form-control" id="direccion" name="direccion" required>
-    </div>
-</div>
-
+                    <!-- Formulario para datos del padre/madre -->
+                    <h2 class="textColor">Ver Datos del Encargado</h2>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="dpi">DPI</label>
+                            <input type="number" class="form-control" id="dpi" name="dpi" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="parentesco">Parentesco</label>
+                            <select class="form-control" id="parentesco" name="parentesco" required>
+                                <option value="">Seleccione un parentesco</option>
+                                <option value="Padre">Padre</option>
+                                <option value="Madre">Madre</option>
+                                <option value="Tia">Tía</option>
+                                <option value="Tio">Tío</option>
+                                <option value="Abuelo">Abuelo</option>
+                                <option value="Abuela">Abuela</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="nombre-padre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre-padre" name="nombre-padre" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="apellido-padre">Apellido</label>
+                            <input type="text" class="form-control" id="apellido-padre" name="apellido-padre" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="telefono">Teléfono</label>
+                            <input type="number" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                    </div>
 
                     <!-- Botón para guardar todos los datos -->
                     <div class="text-right">
-                        <button type="submit" class="btn-guardar">Guardar Cambios</button>
+                        <button type="submit" class="btn-guardar">Guardar todos los datos</button>
                     </div>
                 </form>
             </div>
