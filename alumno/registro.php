@@ -19,13 +19,14 @@
     <div class="sidebar">
         <h1 class="ColorLetra">SADE</h1>
         <ul>
-            <li><a href="../principal/lobi.php">Inicio</a></li>
+        <li><a href="../principal/lobi.php">Inicio</a></li>
+            <li><a href="usuarios.html">Ciclo</a></li>
             <li><a href="../alumno/registro.php">Alumnos</a></li>
+            <li><a href="usuarios.html">Asistencia</a></li>
             <li><a href="../maestro/Maestros.php">Maestros</a></li>
             <li><a href="materias.html">Materias</a></li>
             <li><a href="grados.html">Grados</a></li>
             <li><a href="promedios.html">Promedios</a></li>
-            <li><a href="usuarios.html">Usuarios</a></li>
         </ul>
     </div>
 
@@ -49,16 +50,22 @@
         <div class="area2">
             <br>
             <h1 class="tit">Alumnos</h1>
+            
             <div class="contenedor">
                 <input class="form-control input-busqueda" type="text" placeholder="Buscar">
-                <button class="btn-agregar" onclick="window.location.href='agregar.php';">Agregar</button>
+                <div>
+                    <button class="btn-agregar" onclick="window.location.href='agregar.php';">Agregar</button>
+                    <button class="btn-bajas" onclick="window.location.href='bajas.php';">Bajas</button>
+                </div>
             </div>
+
+
             <div class="table-container">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Código</th>
+                            <th>CUI</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Edad</th>

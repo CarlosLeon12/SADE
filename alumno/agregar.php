@@ -24,13 +24,14 @@
     <div class="sidebar">
         <h1 class="ColorLetra">SADE</h1>
         <ul>
-            <li><a href="../principal/lobi.php">Inicio</a></li>
+        <li><a href="../principal/lobi.php">Inicio</a></li>
+            <li><a href="usuarios.html">Ciclo</a></li>
             <li><a href="../alumno/registro.php">Alumnos</a></li>
+            <li><a href="usuarios.html">Asistencia</a></li>
             <li><a href="../maestro/Maestros.php">Maestros</a></li>
             <li><a href="materias.html">Materias</a></li>
             <li><a href="grados.html">Grados</a></li>
             <li><a href="promedios.html">Promedios</a></li>
-            <li><a href="usuarios.html">Usuarios</a></li>
         </ul>
     </div>
 
@@ -85,8 +86,32 @@
                             <label for="apellidos">Estado</label>
                             <input type="text" class="form-control" id="apellidos" name="apellidos" required>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="grado">Departamento</label>
+                            <select class="form-control" id="grado" name="grado" required>
+                                <option value="">Seleccione un Departamento</option>
+                                <option value="1">Guatemala</option>
+                                <option value="2">Izabal</option>
+                                <option value="3">Zacapa</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="grado">Municipio</label>
+                            <select class="form-control" id="grado" name="grado" required>
+                                <option value="">Seleccione un Municipio</option>
+                                <option value="1">Teculutan</option>
+                                <option value="2">Usumatlan</option>
+                                <option value="3">San Jorge</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
                     </div>
-                    
+
 
                     <!-- Divider between forms -->
                     <div class="divider"></div>
@@ -118,11 +143,16 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        
-                        <div class="form-group col-md-6">
-                            <label for="direccion">Dirección</label>
-                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                    <div class="form-group col-md-6">
+                            <label for="parentesco">Parentesco</label>
+                            <select class="form-control" id="parentesco" name="parentesco" required>
+                                <option value="">Seleccione un parentesco</option>
+                                <option value="1">Madre</option>
+                                <option value="2">Padre</option>
+                                <option value="3">Tio</option>
+                            </select>
                         </div>
+                      
                     </div>
 
                     <!-- Botón para guardar todos los datos -->
