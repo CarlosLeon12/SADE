@@ -57,28 +57,28 @@
                 <h2 class="textColor">Agregar/Actualizar Datos del Usuario</h2>
 
                 <form id="formulario-datos" action="actualizar.php" method="post">
-                    <input type="hidden" id="usuario-id" name="id">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="nombreUsu">Nombre completo del Usuario</label>
-                            <input type="text" class="form-control" id="nombreUsu" name="nombreUsu" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="correo">Correo electrónico</label>
-                            <input type="text" class="form-control" id="correo" name="correo" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="pass">Contraseña</label>
-                            <input type="password" class="form-control" id="pass" name="pass" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <button type="submit" class="btn-guardar gurUsu" id="save-btn">Guardar datos</button>
-                            <button type="button" class="btn-guardar gurUsu" id="update-btn" style="display:none;">Actualizar datos</button>
-                        </div>
-                    </div>
-                </form>
+    <input type="hidden" id="usuario-id" name="id">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nombreUsu">Nombre completo del Usuario</label>
+            <input type="text" class="form-control" id="nombreUsu" name="nombreUsu" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="correo">Correo electrónico</label>
+            <input type="text" class="form-control" id="correo" name="correo" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="pass">Contraseña</label>
+            <input type="password" class="form-control" id="pass" name="pass" required>
+        </div>
+        <div class="form-group col-md-6">
+            <button type="submit" class="btn-guardar gurUsu" id="save-btn">Guardar datos</button>
+            <button type="button" class="btn-guardar gurUsu" id="update-btn" style="display:none;">Actualizar datos</button>
+        </div>
+    </div>
+</form>
 
 
                 <div class="divider"></div>
@@ -105,7 +105,32 @@
     </div>
 
     <script>
-        // Función para cargar los datos del usuario en el formulario al hacer clic en "Editar"
+        // Función para cambiar el estado del usuario
+        function changeStatus(id, nuevoEstado, row) {
+            fetch('cambiar_estado.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'id': id,
+                    'estado': nuevoEstado
+                })
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // Para depuración
+                // Actualizar el color de la fila
+                if (nuevoEstado === 0) {
+                    row.style.backgroundColor = '#f8d7da'; // Rojo claro
+                } else {
+                    row.style.backgroundColor = ''; // Restaurar el color original
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Función para editar los datos del usuario
         function editUser(id) {
             // Obtener la fila del usuario seleccionada
             const row = document.querySelector(`tr[data-id="${id}"]`);
@@ -113,13 +138,11 @@
             // Obtener los datos de esa fila
             const nombre = row.children[1].textContent;
             const correo = row.children[2].textContent;
-            const estado = row.children[4].textContent; // Obtener el estado
 
             // Asignar los datos a los campos del formulario
             document.getElementById('usuario-id').value = id;
             document.getElementById('nombreUsu').value = nombre;
             document.getElementById('correo').value = correo;
-            document.getElementById('estado').value = estado; // Asignar el estado
 
             // Mostrar el botón "Actualizar" y ocultar el de "Guardar"
             document.getElementById('save-btn').style.display = 'none';
@@ -127,29 +150,26 @@
         }
 
         document.getElementById('formulario-datos').addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita el envío por defecto del formulario
+    event.preventDefault(); // Evita el envío por defecto del formulario
 
-            var formData = new FormData(this);
-            var id = document.getElementById('usuario-id').value;
+    var formData = new FormData(this);
+    var id = document.getElementById('usuario-id').value;
 
-            // Determinar si es una actualización o una nueva inserción
-            var url = id ? 'actualizar.php' : 'ususql.php';
+    // Determinar si es una actualización o una nueva inserción
+    var url = id ? 'actualizar.php' : 'ususql.php';
 
-            fetch(url, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(result => {
-                console.log(result); // Para depuración
-                if (result.includes("Éxito")) {
-                    window.location.reload(); // Recargar la página para ver los datos actualizados
-                } else {
-                    alert("Error al guardar los datos: " + result);
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log(result); // Para depuración
+        window.location.reload(); // Recargar la página para ver los datos actualizados
+    })
+    .catch(error => console.error('Error:', error));
+});
+
 
         document.addEventListener('DOMContentLoaded', function() {
             fetch('consulta.php')
@@ -187,7 +207,6 @@
                 })
                 .catch(error => console.error('Error al cargar los datos:', error));
         });
-
     </script>
 
     <!-- Bootstrap JS and dependencies -->
