@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
    
     <!-- FontAwesome CSS for icons -->
@@ -39,46 +39,68 @@
 
         <div class="area2">
             <br>
-            <h1 class="tit">Maestros</h1>
+            <h1 class="tit">Asistencia Alumnos</h1>
+            
             <div class="contenedor">
-                <input class="form-control input-busqueda" type="text" placeholder="Buscar">
-                <button class="btn-agregar" onclick="window.location.href='agregarMaestro.php';">Agregar</button>
+            <div class="form-group col-md-6">
+                            <select class="form-control" id="grado" name="grado" required>
+                                <option value="">Seleccione un Grado</option>
+                                <option value="1">Primero</option>
+                                <option value="2">Segundo</option>
+                                <option value="3">Tercero</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                        <select class="form-control" id="grado" name="grado" required>
+                                <option value="">Seleccionar Seccion</option>
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                                <option value="3">C</option>
+                            </select>
+                        </div>
             </div>
+
+            <div class="contenedor">
+            <button type="submit" class="btn-buscar">Buscar</button>
+            </div>
+
+
             <div class="table-container">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Código</th>
+                            <th>CUI</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Promedio</th>
                             <th>Grado</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th>Seccion</th>
+                            <th>Asistencia</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
 // Simulación de datos (Elimina esto cuando conectes con tu base de datos)
-$maestros = [
-    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Mario', 'apellido' => 'Alvarez', 'grado' => 6, 'estado' => 'activo',],
-    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Osmar', 'apellido' => 'Medina', 'grado' => 2, 'estado' => 'activo',],
+$alumnos = [
+    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero', 'seccion' => 'A'],
+    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo', 'seccion' => 'A'],
     // Agrega más datos aquí
 ];
 
-foreach ($maestros as $maestro) {
+foreach ($alumnos as $alumno) {
     echo '<tr>';
-    echo '<td>' . htmlspecialchars($maestro['id']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['codigo']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['nombre']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['apellido']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['grado']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['estado']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['id']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['codigo']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['nombre']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['apellido']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['edad']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['promedio']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['grado']) . '</td>';
+    echo '<td>' . htmlspecialchars($alumno['seccion']) . '</td>';
     echo '<td>';
-    echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'verMaestro.php?id=' . htmlspecialchars($maestro['id']) . '\'">';
-    echo '<i class="fas fa-eye"></i></button>';
-    echo '<button class="btn-opcion" title="Eliminar" onclick="if(confirm(\'¿Estás seguro de que deseas eliminar este registro?\')) { window.location.href=\'eliminar.php?id=' . htmlspecialchars($maestro['id']) . '\'; }">';
-    echo '<i class="fas fa-trash-alt"></i></button>';
+    echo '<input type="checkbox" class="checkbox-opcion" name="seleccion[]" value="' . htmlspecialchars($alumno['id']) . '">';
     echo '</td>';
     echo '</tr>';
 }
