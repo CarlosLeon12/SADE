@@ -25,8 +25,8 @@
         }
 
         .btn-danger-row {
-            background-color: #f8d7da !important; /* Color de fondo rojo claro */
-            color: #721c24 !important; /* Color del texto en rojo oscuro */
+            background-color: #f8d7da !important;
+            color: #721c24 !important;
         }
     </style>
 </head>
@@ -56,7 +56,7 @@
             <div class="form-section">
                 <h2 class="textColor">Agregar/Actualizar Datos del Usuario</h2>
 
-                <form id="formulario-datos" action="ususql.php" method="post">
+                <form id="formulario-datos" action="actualizar.php" method="post">
                     <input type="hidden" id="usuario-id" name="id">
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -79,6 +79,7 @@
                         </div>
                     </div>
                 </form>
+
 
                 <div class="divider"></div>
 
@@ -104,19 +105,48 @@
     </div>
 
     <script>
+        // Función para cargar los datos del usuario en el formulario al hacer clic en "Editar"
+        function editUser(id) {
+            // Obtener la fila del usuario seleccionada
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+
+            // Obtener los datos de esa fila
+            const nombre = row.children[1].textContent;
+            const correo = row.children[2].textContent;
+            const estado = row.children[4].textContent; // Obtener el estado
+
+            // Asignar los datos a los campos del formulario
+            document.getElementById('usuario-id').value = id;
+            document.getElementById('nombreUsu').value = nombre;
+            document.getElementById('correo').value = correo;
+            document.getElementById('estado').value = estado; // Asignar el estado
+
+            // Mostrar el botón "Actualizar" y ocultar el de "Guardar"
+            document.getElementById('save-btn').style.display = 'none';
+            document.getElementById('update-btn').style.display = 'inline-block';
+        }
+
         document.getElementById('formulario-datos').addEventListener('submit', function(event) {
             event.preventDefault(); // Evita el envío por defecto del formulario
 
             var formData = new FormData(this);
+            var id = document.getElementById('usuario-id').value;
 
-            fetch('ususql.php', {
+            // Determinar si es una actualización o una nueva inserción
+            var url = id ? 'actualizar.php' : 'ususql.php';
+
+            fetch(url, {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text())
             .then(result => {
-                console.log(result); // Para depuración (puedes eliminar esta línea en producción)
-                window.location.reload(); // Recarga la página para mostrar los datos actualizados
+                console.log(result); // Para depuración
+                if (result.includes("Éxito")) {
+                    window.location.reload(); // Recargar la página para ver los datos actualizados
+                } else {
+                    alert("Error al guardar los datos: " + result);
+                }
             })
             .catch(error => console.error('Error:', error));
         });
@@ -158,46 +188,6 @@
                 .catch(error => console.error('Error al cargar los datos:', error));
         });
 
-        function changeStatus(id, estado, fila) {
-            fetch('update_status.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: id, estado: estado })
-            })
-            .then(response => response.text())
-            .then(() => {
-                // Actualizar el color de la fila según el estado
-                if (estado == 0) {
-                    fila.style.backgroundColor = '#f8d7da'; // Rojo claro
-                    fila.querySelectorAll('button').forEach(button => button.disabled = true); // Deshabilitar botones
-                } else {
-                    fila.style.backgroundColor = ''; // Restablecer color
-                }
-            })
-            .catch(error => console.error('Error al actualizar el estado:', error));
-        }
-
-        function editUser(id) {
-            fetch('get_user.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: id })
-            })
-            .then(response => response.json())
-            .then(user => {
-                document.getElementById('usuario-id').value = user.id;
-                document.getElementById('nombreUsu').value = user.nombre;
-                document.getElementById('correo').value = user.correo;
-                document.getElementById('pass').value = user.contrasena;
-                document.getElementById('save-btn').style.display = 'none'; // Oculta el botón de guardar
-                document.getElementById('update-btn').style.display = 'inline'; // Muestra el botón de actualizar
-            })
-            .catch(error => console.error('Error:', error));
-        }
     </script>
 
     <!-- Bootstrap JS and dependencies -->
