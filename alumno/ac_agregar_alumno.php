@@ -71,19 +71,7 @@
         }
     } else {
         echo 'Datos incompletos. Verifique todos los campos.';
-        // Imprimir los valores para depuración
-        echo "Nombre: '$nombre'<br>";
-        echo "Apellido: '$apellido'<br>";
-        echo "CUI: '$cui'<br>";
-        echo "DPI: '$dpi'<br>";
-        echo "Fecha de nacimiento: '$fecha_nacimiento_mysql'<br>";
-        echo "Parentesco: '$parentezco'<br>";
-        echo "Nombre del padre: '$nombre_padre'<br>";
-        echo "Apellido del padre: '$apellido_padre'<br>";
-        echo "Dirección: '$direccion'<br>";
-        echo "Teléfono: '$telefono'<br>";
-        echo "Departamento: '$departamento'<br>";
-        echo "Municipio: '$municipio'<br>";
+        
     }
 
     header('Location: registro.php')

@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         // Hacer la solicitud AJAX para obtener los municipios
         $.ajax({
-            url: 'get_municipios.php', // Ruta del archivo PHP que obtendrá los municipios
+            url: '../alumno/get_municipios.php', // Ruta del archivo PHP que obtendrá los municipios
             type: 'POST',
             data: { codigo_departamento: codigo_departamento },
             success: function(response) {

@@ -1,3 +1,75 @@
+<?php
+// Conexión a la base de datos
+include('../db_connect.php');
+
+// Modificar la consulta SQL para incluir la tabla intermedia tbl_ciclo
+$consulta = "
+    SELECT 
+    ma.codigo_profesor, 
+    ma.nombre_profesor, 
+    ma.apellido_profesor,
+    ma.telefono_profesor,
+    TIMESTAMPDIFF(YEAR, ma.fecha_nacimiento, CURDATE()) AS edad, 
+    g.descripcion AS grado, 
+    ci.seccion,
+    CONCAT(ma.direccion, ', ', mun.nombre_municipio, ', ', dep.nombre_departamento) AS direccion_completa 
+FROM 
+    tbl_profesores ma
+LEFT JOIN 
+    tbl_ciclo ci ON ma.codigo_profesor = ci.codigo_profesor
+LEFT JOIN 
+    tbl_grados g ON ci.codigo_grado = g.codigo_grado
+LEFT JOIN 
+    tbl_departamentos dep ON ma.codigo_departamento = dep.codigo_departamento
+LEFT JOIN 
+    tbl_municipios mun ON ma.codigo_municipio = mun.codigo_municipio
+";
+
+// Ejecutar la consulta
+$resultado = mysqli_query($conn, $consulta);
+
+// Generar la tabla
+$tabla = "
+    <table class='table table-striped table-hover' style='width:100%'>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Telefono</th>
+                <th>Edad</th>
+                <th>Grado</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+";
+
+// Añadir filas a la tabla
+while ($registro = mysqli_fetch_assoc($resultado)) {
+    $tabla .= "
+        <tr>
+            <td>{$registro['codigo_profesor']}</td>
+            <td>{$registro['nombre_profesor']}</td>
+            <td>{$registro['apellido_profesor']}</td>
+            <td>{$registro['telefono_profesor']}</td>
+            <td>{$registro['edad']}</td>
+            <td>{$registro['grado']}</td>
+            <td>{$registro['seccion']}</td>
+            <td>{$registro['direccion_completa']}</td>
+            <td>
+                <a href='Actualizar.php?id={$registro['codigo_profesor']}'>Editar</a> 
+                <a href='ac_eliminar_empleado.php?id={$registro['codigo_profesor']}'>Eliminar</a>
+            </td>
+        </tr>
+    ";
+}
+
+$tabla .= "</tbody></table>";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,51 +116,11 @@
                 <input class="form-control input-busqueda" type="text" placeholder="Buscar">
                 <button class="btn-agregar" onclick="window.location.href='agregarMaestro.php';">Agregar</button>
             </div>
-            <div class="table-container">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Grado</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-// Simulación de datos (Elimina esto cuando conectes con tu base de datos)
-$maestros = [
-    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Mario', 'apellido' => 'Alvarez', 'grado' => 6, 'estado' => 'activo',],
-    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Osmar', 'apellido' => 'Medina', 'grado' => 2, 'estado' => 'activo',],
-    // Agrega más datos aquí
-];
-
-foreach ($maestros as $maestro) {
-    echo '<tr>';
-    echo '<td>' . htmlspecialchars($maestro['id']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['codigo']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['nombre']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['apellido']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['grado']) . '</td>';
-    echo '<td>' . htmlspecialchars($maestro['estado']) . '</td>';
-    echo '<td>';
-    echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'verMaestro.php?id=' . htmlspecialchars($maestro['id']) . '\'">';
-    echo '<i class="fas fa-eye"></i></button>';
-    echo '<button class="btn-opcion" title="Eliminar" onclick="if(confirm(\'¿Estás seguro de que deseas eliminar este registro?\')) { window.location.href=\'eliminar.php?id=' . htmlspecialchars($maestro['id']) . '\'; }">';
-    echo '<i class="fas fa-trash-alt"></i></button>';
-    echo '</td>';
-    echo '</tr>';
-}
-?>
-
-                    </tbody>
-                </table>
+                <div class="table-container">
+                    <?php echo $tabla; ?>
+                </div>
             </div>
         </div>
-    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

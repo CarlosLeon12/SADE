@@ -1,3 +1,20 @@
+<?php
+
+    include('../db_connect.php');
+    $consulta2 = "SELECT * FROM  tbl_departamentos";
+    $resultado2 = mysqli_query($conn, $consulta2);
+    $data2 = array();
+
+    if ($resultado2->num_rows > 0) {
+        while ($row2 = $resultado2->fetch_assoc()) {
+            $data2[] = $row2;
+        }
+    }
+
+    
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,12 +63,9 @@
             <!-- Formulario para alumnos -->
             <div class="form-section">
                 <h2 class="textColor">Agregar Datos del Maestro</h2>
-                <form id="formulario-datos">
+                <form action="ac_agregar_maestro.php" method="POST" id="ingresarMaestro">
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="codigo">Código</label>
-                            <input type="number" class="form-control" id="codigo" name="codigo" required>
-                        </div>
+                        
                         <div class="form-group col-md-6">
                             <label for="dpi">DPI</label>
                             <input type="number" class="form-control" id="cui" name="cui" required>
@@ -82,6 +96,25 @@
                         </div>
                     </div>
 
+                    <div class="form-row"> 
+                        <div class="form-group col-md-6">
+                            <label for="departamento">Departamento</label>
+                            <select class="form-control" id="departamento" name="departamento" required>
+                                <option value="">Seleccione un Departamento</option>
+                                <?php foreach ($data2 as $row2): ?>
+                                <option value="<?php echo $row2['codigo_departamento']; ?>"><?php echo $row2['nombre_departamento']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="municipio">Municipio</label>
+                            <select class="form-control" id="municipio" name="municipio" required>
+                                <!-- Los municipios se cargarán aquí dinámicamente -->
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="apellido-padre">Direccion</label>
@@ -99,9 +132,10 @@
     </div>
 
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../alumno/script.js"></script>
 </body>
 
 </html>
