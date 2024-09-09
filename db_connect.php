@@ -2,7 +2,7 @@
 $servername = "localhost"; 
 $username = "root"; 
 $password = "";
-$dbname = "sade";
+$dbname = "bd_sade";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1,5 +1,92 @@
+<?php
+// Conexión a la base de datos
+include('../db_connect.php');
+
+// Modificar la consulta SQL para incluir la tabla intermedia tbl_ciclo
+$consulta = "
+    SELECT 
+    al.id_alumno, 
+    al.codigo_alumno, 
+    al.nombre_alumno, 
+    al.apellido_alumno, 
+    TIMESTAMPDIFF(YEAR, al.fecha_nacimiento, CURDATE()) AS edad, 
+    nt.promedio, 
+    g.descripcion AS grado, 
+    ci.seccion, 
+    CONCAT(al.direccion, ', ', mun.nombre_municipio, ', ', dep.nombre_departamento) AS direccion_completa, 
+    res.nombre_responsable, 
+    res.apellido_responsable 
+FROM 
+    tbl_alumnos al
+LEFT JOIN 
+    tbl_ciclo ci ON al.id_alumno = ci.codigo_alumno
+LEFT JOIN 
+    tbl_nota_total nt ON ci.codigo_asignacion_grado = nt.codigo_ciclo
+LEFT JOIN 
+    tbl_grados g ON ci.codigo_grado = g.codigo_grado
+LEFT JOIN 
+    tbl_responsables res ON res.codigo_responsable = al.codigo_responsable
+LEFT JOIN 
+    tbl_departamentos dep ON al.codigo_departamento = dep.codigo_departamento
+LEFT JOIN 
+    tbl_municipios mun ON al.codigo_municipio = mun.codigo_municipio
+";
+
+// Ejecutar la consulta
+$resultado = mysqli_query($conn, $consulta);
+
+// Generar la tabla
+$tabla = "
+    <table class='table table-striped table-hover' style='width:100%'>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Promedio</th>
+                <th>Grado</th>
+                <th>Sección</th>
+                <th>Dirección</th>
+                <th>Responsable</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+";
+
+// Añadir filas a la tabla
+while ($registro = mysqli_fetch_assoc($resultado)) {
+    $tabla .= "
+        <tr>
+            <td>{$registro['id_alumno']}</td>
+            <td>{$registro['codigo_alumno']}</td>
+            <td>{$registro['nombre_alumno']}</td>
+            <td>{$registro['apellido_alumno']}</td>
+            <td>{$registro['edad']}</td>
+            <td>{$registro['promedio']}</td>
+            <td>{$registro['grado']}</td>
+            <td>{$registro['seccion']}</td>
+            <td>{$registro['direccion_completa']}</td>
+            <td>{$registro['nombre_responsable']} {$registro['apellido_responsable']}</td>
+            <td>
+                <a href='Actualizar.php?id={$registro['id_alumno']}'>Editar</a> 
+                <a href='ac_eliminar_empleado.php?id={$registro['id_alumno']}'>Eliminar</a>
+            </td>
+        </tr>
+    ";
+}
+
+$tabla .= "</tbody></table>";
+
+
+
+
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -16,9 +103,19 @@
 </head>
 
 <body>
-    <?php
-    include('../menu.php')
-    ?>
+    <div class="sidebar">
+        <h1 class="ColorLetra">SADE</h1>
+        <ul>
+            <li><a href="../principal/lobi.php">Inicio</a></li>
+            <li><a href="../alumno/registro.php">Alumnos</a></li>
+            <li><a href="../maestro/Maestros.php">Maestros</a></li>
+            <li><a href="materias.html">Materias</a></li>
+            <li><a href="grados.html">Grados</a></li>
+            <li><a href="promedios.html">Promedios</a></li>
+            <li><a href="usuarios.html">Usuarios</a></li>
+        </ul>
+    </div>
+
     <div class="content container-fluid">
         <div class="area">
             <fieldset class="complementArea">
@@ -39,62 +136,12 @@
         <div class="area2">
             <br>
             <h1 class="tit">Alumnos</h1>
-            
             <div class="contenedor">
                 <input class="form-control input-busqueda" type="text" placeholder="Buscar">
-                <div>
-                    <button class="btn-agregar" onclick="window.location.href='agregar.php';">Agregar</button>
-                    <button class="btn-bajas" onclick="window.location.href='bajas.php';">Bajas</button>
-                </div>
+                <button class="btn-agregar" onclick="window.location.href='agregar.php';">Agregar</button>
             </div>
-
-
             <div class="table-container">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>CUI</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Edad</th>
-                            <th>Promedio</th>
-                            <th>Grado</th>
-                            <th>Seccion</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-// Simulación de datos (Elimina esto cuando conectes con tu base de datos)
-$alumnos = [
-    ['id' => 1, 'codigo' => '119020', 'nombre' => 'Jesus', 'apellido' => 'Corton', 'edad' => 10, 'promedio' => 83, 'grado' => 'Primero', 'seccion' => 'A'],
-    ['id' => 2, 'codigo' => '119021', 'nombre' => 'Maria', 'apellido' => 'Lopez', 'edad' => 11, 'promedio' => 87, 'grado' => 'Segundo', 'seccion' => 'A'],
-    // Agrega más datos aquí
-];
-
-foreach ($alumnos as $alumno) {
-    echo '<tr>';
-    echo '<td>' . htmlspecialchars($alumno['id']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['codigo']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['nombre']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['apellido']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['edad']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['promedio']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['grado']) . '</td>';
-    echo '<td>' . htmlspecialchars($alumno['seccion']) . '</td>';
-    echo '<td>';
-    echo '<button class="btn-opcion" title="Ver" onclick="window.location.href=\'ver.php?id=' . htmlspecialchars($alumno['id']) . '\'">';
-    echo '<i class="fas fa-eye"></i></button>';
-    echo '<button class="btn-opcion" title="Eliminar" onclick="if(confirm(\'¿Estás seguro de que deseas eliminar este registro?\')) { window.location.href=\'eliminar.php?id=' . htmlspecialchars($alumno['id']) . '\'; }">';
-    echo '<i class="fas fa-trash-alt"></i></button>';
-    echo '</td>';
-    echo '</tr>';
-}
-?>
-
-                    </tbody>
-                </table>
+                <?php echo $tabla; ?>
             </div>
         </div>
     </div>

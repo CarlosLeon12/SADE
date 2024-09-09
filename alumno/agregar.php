@@ -1,3 +1,30 @@
+<?php
+
+    include('../db_connect.php');
+    $consulta = "SELECT * FROM  tbl_parentezco";
+    $resultado = mysqli_query($conn, $consulta);
+    $data = array();
+
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+
+    $consulta2 = "SELECT * FROM  tbl_departamentos";
+    $resultado2 = mysqli_query($conn, $consulta2);
+    $data2 = array();
+
+    if ($resultado2->num_rows > 0) {
+        while ($row2 = $resultado2->fetch_assoc()) {
+            $data2[] = $row2;
+        }
+    }
+
+    
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,10 +48,19 @@
 </style>
 
 <body>
-    
-    <?php
-    include('../menu.php')
-    ?>
+    <div class="sidebar">
+        <h1 class="ColorLetra">SADE</h1>
+        <ul>
+        <li><a href="../principal/lobi.php">Inicio</a></li>
+            <li><a href="usuarios.html">Ciclo</a></li>
+            <li><a href="../alumno/registro.php">Alumnos</a></li>
+            <li><a href="usuarios.html">Asistencia</a></li>
+            <li><a href="../maestro/Maestros.php">Maestros</a></li>
+            <li><a href="materias.html">Materias</a></li>
+            <li><a href="grados.html">Grados</a></li>
+            <li><a href="promedios.html">Promedios</a></li>
+        </ul>
+    </div>
 
     <div class="content container-fluid">
         <div class="area">
@@ -48,7 +84,7 @@
             <div class="form-section">
                 <h2 class="textColor">Agregar Datos del Alumno</h2>
                 <!---------------------------Aqui  mediante el post se envia el formulario-->
-                <form action="../inserciones.php" method="POST" id="ingresarAlumno">
+                <form action="ac_agregar_alumno.php" method="POST" id="ingresarAlumno">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="cui">CUI</label>
@@ -72,36 +108,30 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                    <div class="form-group col-md-6">
-                            <label for="apellidos">Estado</label>
-                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
-                        </div>
-
+                    <div class="form-row"> 
                         <div class="form-group col-md-6">
-                            <label for="grado">Departamento</label>
-                            <select class="form-control" id="grado" name="grado" required>
+                            <label for="departamento">Departamento</label>
+                            <select class="form-control" id="departamento" name="departamento" required>
                                 <option value="">Seleccione un Departamento</option>
-                                <option value="1">Guatemala</option>
-                                <option value="2">Izabal</option>
-                                <option value="3">Zacapa</option>
+                                <?php foreach ($data2 as $row2): ?>
+                                <option value="<?php echo $row2['codigo_departamento']; ?>"><?php echo $row2['nombre_departamento']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="grado">Municipio</label>
-                            <select class="form-control" id="grado" name="grado" required>
-                                <option value="">Seleccione un Municipio</option>
-                                <option value="1">Teculutan</option>
-                                <option value="2">Usumatlan</option>
-                                <option value="3">San Jorge</option>
+                            <label for="municipio">Municipio</label>
+                            <select class="form-control" id="municipio" name="municipio" required>
+                                <!-- Los municipios se cargarán aquí dinámicamente -->
                             </select>
                         </div>
+                    </div>
+
                         <div class="form-group col-md-6">
                             <label for="direccion">Dirección</label>
                             <input type="text" class="form-control" id="direccion" name="direccion" required>
                         </div>
-                    </div>
+                    
 
 
                     <!-- Divider between forms -->
@@ -138,9 +168,9 @@
                             <label for="parentesco">Parentesco</label>
                             <select class="form-control" id="parentesco" name="parentesco" required>
                                 <option value="">Seleccione un parentesco</option>
-                                <option value="1">Madre</option>
-                                <option value="2">Padre</option>
-                                <option value="3">Tio</option>
+                                <?php foreach ($data as $row): ?>
+                                    <option value="<?php echo $row['codigo_parentezco']; ?>"><?php echo $row['nombre_parentezco']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                       
@@ -156,9 +186,11 @@
     </div>
 
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Reemplaza la versión "slim" por la versión completa -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
