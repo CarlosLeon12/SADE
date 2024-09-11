@@ -1,28 +1,34 @@
 <?php
-// Conexión a la base de datos
-include('../db_connect.php');
+
+    include('../db_connect.php');
+    $consulta = "SELECT * FROM  tbl_ciclo";
+    $resultado = mysqli_query($conn, $consulta);
+    $data = array();
+
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+
+    $year = date("Y"); // Obtener el año actual
 
 // Modificar la consulta SQL para incluir la tabla intermedia tbl_ciclo
 $consulta = "
     SELECT 
-    ma.codigo_profesor, 
-    ma.nombre_profesor, 
-    ma.apellido_profesor,
-    ma.telefono_profesor,
-    TIMESTAMPDIFF(YEAR, ma.fecha_nacimiento, CURDATE()) AS edad, 
+    ci.codigo_ciclo,
     g.descripcion AS grado, 
-    ci.seccion,
-    CONCAT(ma.direccion, ', ', mun.nombre_municipio, ', ', dep.nombre_departamento) AS direccion_completa 
+    ci.seccion, 
+    ci.anio,
+    ma.nombre_profesor 
 FROM 
-    tbl_profesores ma
-LEFT JOIN 
-    tbl_ciclo ci ON ma.codigo_profesor = ci.codigo_profesor
+    tbl_ciclo ci
 LEFT JOIN 
     tbl_grados g ON ci.codigo_grado = g.codigo_grado
 LEFT JOIN 
-    tbl_departamentos dep ON ma.codigo_departamento = dep.codigo_departamento
-LEFT JOIN 
-    tbl_municipios mun ON ma.codigo_municipio = mun.codigo_municipio
+    tbl_profesores ma ON ci.codigo_profesor = ma.codigo_profesor
+WHERE 
+    ci.anio = '$year'
 ";
 
 // Ejecutar la consulta
@@ -33,13 +39,10 @@ $tabla = "
     <table class='table table-striped table-hover' style='width:100%'>
         <thead>
             <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Telefono</th>
-                <th>Edad</th>
                 <th>Grado</th>
-                <th>Dirección</th>
+                <th>Seccion</th>
+                <th>Año</th>
+                <th>Profesor</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -50,23 +53,20 @@ $tabla = "
 while ($registro = mysqli_fetch_assoc($resultado)) {
     $tabla .= "
         <tr>
-            <td>{$registro['codigo_profesor']}</td>
-            <td>{$registro['nombre_profesor']}</td>
-            <td>{$registro['apellido_profesor']}</td>
-            <td>{$registro['telefono_profesor']}</td>
-            <td>{$registro['edad']}</td>
             <td>{$registro['grado']}</td>
             <td>{$registro['seccion']}</td>
-            <td>{$registro['direccion_completa']}</td>
+            <td>{$registro['anio']}</td>
+            <td>{$registro['nombre_profesor']}</td>
             <td>
-                <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"ver.php?id={$registro['codigo_profesor']}\"'><i class='fas fa-edit'></i></button> 
-                <button class='btn-opcion text-danger'  title='Baja' onclick='window.location.href=\"cambiar_estado.php?id={$registro['codigo_profesor']}\"'><i class='fas fa-times'></i></button>
+                <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"ver.php?id={$registro['codigo_ciclo']}\"'><i class='fas fa-edit'></i></button> 
+                <button class='btn-opcion text-danger'  title='Baja' onclick='window.location.href=\"cambiar_estado.php?id={$registro['codigo_ciclo']}\"'><i class='fas fa-times'></i></button>
             </td>
         </tr>
     ";
 }
 
 $tabla .= "</tbody></table>";
+
 
 ?>
 
@@ -80,7 +80,7 @@ $tabla .= "</tbody></table>";
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
    
     <!-- FontAwesome CSS for icons -->
@@ -111,21 +111,44 @@ $tabla .= "</tbody></table>";
 
         <div class="area2">
             <br>
-            <h1 class="tit">Maestros</h1>
+            <h1 class="tit">Ciclo Estudiantil</h1>
+            
             <div class="contenedor">
-                <input class="form-control input-busqueda" type="text" placeholder="Buscar">
-                <button class="btn-agregar" onclick="window.location.href='agregarMaestro.php';">Agregar</button>
+                <div class="form-group col-md-6">
+                    <select class="form-control" id="anio" name="anio" required>
+                        <option value="">Seleccione un Ciclo</option>
+                        <?php foreach ($data as $row): ?>
+                        <option value="<?php echo $row['anio']; ?>"><?php echo $row['anio']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <!-- Botón para agregar ciclo -->
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" onclick="window.location.href='agregar_ciclo.php';">
+                        Agregar Ciclo
+                    </button>
             </div>
+                        
+            </div>
+
+            <div class="contenedor">
+                <button type="button" id="btn_buscar" class="btn-buscar">Buscar</button>
+            </div>
+
+            <div class="table-container">
                 <div class="table-container">
                     <?php echo $tabla; ?>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Incluir el archivo de JavaScript -->
+    <script src="buscar_ciclos.js"></script>
 </body>
 
 </html>

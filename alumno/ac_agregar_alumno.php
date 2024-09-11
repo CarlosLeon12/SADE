@@ -12,11 +12,9 @@
     $direccion = !empty($_POST['direccion']) ? $_POST['direccion'] : '';
     $departamento = !empty($_POST['departamento']) ? $_POST['departamento'] : '';
     $municipio = !empty($_POST['municipio']) ? $_POST['municipio'] : '';
+    $ciclo = !empty($_POST['ciclo']) ? $_POST['ciclo'] : '';
 
-    echo "Fecha de nacimiento recibida: '" . $fecha_nacimiento . "'<br>";
-   
-
-    if ($nombre && $apellido && $cui && $dpi && $fecha_nacimiento && $parentezco && $nombre_padre && $apellido_padre && $direccion && $telefono && $departamento && $municipio) {
+    if ($ciclo && $nombre && $apellido && $cui && $dpi && $fecha_nacimiento && $parentezco && $nombre_padre && $apellido_padre && $direccion && $telefono && $departamento && $municipio) {
         include('../db_connect.php');
         
         // Iniciar una transacción
@@ -24,7 +22,6 @@
 
         try {
             // 1. Llamar al procedimiento almacenado para insertar en tbl_responsables
-            echo "fecha segue siendo: '". $fecha_nacimiento . "' <br>";
             $consulta_responsable = "CALL InsertarResponsable(?, ?, ?, ?, ?)";
             $stmt_responsable = $conn->prepare($consulta_responsable);
             $stmt_responsable->bind_param("sssis", $dpi, $nombre_padre, $apellido_padre, $parentezco, $telefono);
@@ -42,23 +39,41 @@
                     throw new Exception('No se pudo obtener el código del responsable');
                 }
 
-                echo "Código responsable insertado: $codigo_responsable<br>";
-
                 // 2. Llamar al procedimiento almacenado para insertar en tbl_alumnos
-                echo "fecha segue siendo: '". $fecha_nacimiento . "' <br>";
                 $consulta_alumno = "CALL InsertarAlumno(?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt_alumno = $conn->prepare($consulta_alumno);
                 $stmt_alumno->bind_param("ssssssii", $cui, $nombre, $apellido, $fecha_nacimiento, $codigo_responsable, $direccion, $departamento, $municipio);
-                echo "fecha segue siendo: '". $fecha_nacimiento . "' <br>";
+
                 if ($stmt_alumno->execute()) {
-                    echo 'Registro guardado correctamente';
                     $stmt_alumno->close();
+
+                    // Obtener el último ID insertado para el alumno
+                    $result2 = $conn->query("SELECT LAST_INSERT_ID() as id_alumno");
+                    if ($result2) {
+                        $row2 = $result2->fetch_assoc();
+                        $codigo_alumno = $row2['id_alumno'];
+                        $result2->free();
+                    } else {
+                        throw new Exception('No se pudo obtener el código del alumno');
+                    }
+
+                    // 3. Llamar al procedimiento almacenado para Asignar Alumnos a un ciclo
+                    $consulta_asignar = "CALL AsignarAlumno(?, ?)";
+                    $stmt_asignar = $conn->prepare($consulta_asignar);
+                    $stmt_asignar->bind_param("ss", $ciclo, $codigo_alumno);
+
+                    if ($stmt_asignar->execute()) {
+                        echo 'Alumno asignado correctamente';
+                        $stmt_asignar->close();
+                    } else {
+                        throw new Exception('Error al Asignar Alumno: ' . $stmt_asignar->error);
+                    }
+
+                    // Confirmar la transacción
+                    $conn->commit();
                 } else {
                     throw new Exception('Error al Guardar Alumno: ' . $stmt_alumno->error);
                 }
-                
-                // Confirmar la transacción
-                $conn->commit();
             } else {
                 throw new Exception('Error al Guardar Responsable: ' . $stmt_responsable->error);
             }
@@ -71,8 +86,7 @@
         }
     } else {
         echo 'Datos incompletos. Verifique todos los campos.';
-        
     }
 
-    header('Location: registro.php')
+    header('Location: registro.php');
 ?>

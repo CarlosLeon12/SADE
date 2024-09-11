@@ -21,7 +21,24 @@
         }
     }
 
-    
+    $consulta3 = "
+    SELECT 
+        ci.codigo_ciclo, 
+        CONCAT(g.descripcion, ' - ', ci.seccion) AS ciclo_completo
+    FROM 
+        tbl_ciclo ci
+    LEFT JOIN 
+        tbl_grados g ON ci.codigo_grado = g.codigo_grado
+";
+
+$resultado3 = mysqli_query($conn, $consulta3);
+$data3 = array();
+
+if ($resultado3->num_rows > 0) {
+    while ($row3 = $resultado3->fetch_assoc()) {
+        $data3[] = $row3;
+    }
+}
 
 ?>
 
@@ -126,13 +143,22 @@
                             </select>
                         </div>
                     </div>
-
+                    <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="direccion">Dirección</label>
                             <input type="text" class="form-control" id="direccion" name="direccion" required>
                         </div>
                     
-
+                        <div class="form-group col-md-6">
+                            <label for="ciclo">Grado</label>
+                            <select class="form-control" id="ciclo" name="ciclo" required>
+                                <option value="">Seleccione un Ciclo</option>
+                                <?php foreach ($data3 as $row3): ?>
+                                    <option value="<?php echo $row3['codigo_ciclo']; ?>"><?php echo $row3['ciclo_completo']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
 
                     <!-- Divider between forms -->
                     <div class="divider"></div>

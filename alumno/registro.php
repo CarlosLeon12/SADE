@@ -19,9 +19,11 @@ $consulta = "
 FROM 
     tbl_alumnos al
 LEFT JOIN 
-    tbl_ciclo ci ON al.id_alumno = ci.codigo_alumno
+    tbl_asignacion_alumno asi ON al.id_alumno = asi.codigo_alumno
 LEFT JOIN 
-    tbl_nota_total nt ON ci.codigo_asignacion_grado = nt.codigo_ciclo
+    tbl_ciclo ci ON asi.codigo_ciclo = ci.codigo_ciclo
+LEFT JOIN 
+    tbl_nota_total nt ON ci.codigo_ciclo = nt.codigo_ciclo
 LEFT JOIN 
     tbl_grados g ON ci.codigo_grado = g.codigo_grado
 LEFT JOIN 
@@ -71,18 +73,14 @@ while ($registro = mysqli_fetch_assoc($resultado)) {
             <td>{$registro['direccion_completa']}</td>
             <td>{$registro['nombre_responsable']} {$registro['apellido_responsable']}</td>
             <td>
-                <a href='Actualizar.php?id={$registro['id_alumno']}'>Editar</a> 
-                <a href='ac_eliminar_empleado.php?id={$registro['id_alumno']}'>Eliminar</a>
+                <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"ver.php?id={$registro['id_alumno']}\"'><i class='fas fa-edit'></i></button> 
+                <button class='btn-opcion text-danger'  title='Baja' onclick='window.location.href=\"cambiar_estado.php?id={$registro['id_alumno']}\"'><i class='fas fa-times'></i></button>
             </td>
         </tr>
     ";
 }
 
 $tabla .= "</tbody></table>";
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -103,18 +101,9 @@ $tabla .= "</tbody></table>";
 </head>
 
 <body>
-    <div class="sidebar">
-        <h1 class="ColorLetra">SADE</h1>
-        <ul>
-            <li><a href="../principal/lobi.php">Inicio</a></li>
-            <li><a href="../alumno/registro.php">Alumnos</a></li>
-            <li><a href="../maestro/Maestros.php">Maestros</a></li>
-            <li><a href="materias.html">Materias</a></li>
-            <li><a href="grados.html">Grados</a></li>
-            <li><a href="promedios.html">Promedios</a></li>
-            <li><a href="usuarios.html">Usuarios</a></li>
-        </ul>
-    </div>
+<?php
+    include('../menu.php')
+    ?>
 
     <div class="content container-fluid">
         <div class="area">

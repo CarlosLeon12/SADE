@@ -73,6 +73,17 @@
                     <div class="form-row">
 
                     <div class="form-group col-md-6">
+                            <label for="seccion">Grado</label>
+                            <select class="form-control" id="seccion" name="seccion" required>
+                                <option value="">Seleccione un grado</option>
+                                <option value="1">Primero</option>
+                                <option value="2">Segundo</option>
+                                <option value="3">Tercero</option>
+                            </select>
+                    </div>
+
+
+                    <div class="form-group col-md-6">
                             <label for="seccion">Seccion</label>
                             <select class="form-control" id="seccion" name="seccion" required>
                                 <option value="">Seleccione una seccion</option>
@@ -81,17 +92,6 @@
                                 <option value="3">C</option>
                             </select>
                         </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="seccion">Grado</label>
-                            <select class="form-control" id="seccion" name="seccion" required>
-                                <option value="">Seleccione un grado</option>
-                                <option value="1">Primero</option>
-                                <option value="2">Segundo</option>
-                                <option value="3">Tercero</option>
-                            </select>
-                        </div>
-
 
                     </div>
                     

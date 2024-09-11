@@ -248,3 +248,31 @@ body {
     border-top: 1px solid #ddd;
     border: solid rgb(153, 153, 153) 1px;
   }
+
+  .textColor {
+    color: #007bff;
+}
+
+.btn-guardar, .btn-actualizar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-guardar:hover, .btn-actualizar:hover {
+    background-color: #0056b3;
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+.divider {
+    margin: 20px 0;
+}
+
+.btn-opcion {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
