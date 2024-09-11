@@ -8,14 +8,14 @@
 </head>
 <body>
   <div class="container">
-    <form action="../acciones/usuarios.php" method="GET">
+    <form action="../acciones/usuarios.php" method="POST">
       <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" required>
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" required>
       </div>
       <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" required>
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" name="password" required>
       </div>
       <button type="submit">Iniciar sesión</button>
     </form>
@@ -39,6 +39,7 @@
       ";
     }
   }
+  
   ?>
 </body>
 </html>
