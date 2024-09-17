@@ -6,7 +6,7 @@
             <li><a href="../alumno/registro.php">Alumnos</a></li>
             <li><a href="../Asistencia/asistenc.php">Asistencia</a></li>
             <li><a href="../maestro/Maestros.php">Maestros</a></li>
-            <li><a href="materias.html">Materias</a></li>
+            <li><a href="../materias/materias.php">Materias</a></li>
             <li><a href="../grados/grados.php">Grados</a></li>
             <li><a href="promedios.html">Promedios</a></li>
            
