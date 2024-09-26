@@ -1,7 +1,7 @@
 <?php
 
     include('../db_connect.php');
-    $consulta = "SELECT DISTINCT anio FROM tbl_ciclo";
+    $consulta = "SELECT * FROM  tbl_ciclo";
     $resultado = mysqli_query($conn, $consulta);
     $data = array();
 
@@ -12,10 +12,6 @@
     }
 
     $year = date("Y"); // Obtener el año actual
-    $anio_anterior = $year - 1; // Calcular el año anterior
-    // Actualizar el estado de los ciclos del año anterior
-    $consulta1 = "UPDATE tbl_ciclo SET estado = 0 WHERE anio = $anio_anterior";
-    mysqli_query($conn, $consulta1);
 
 // Modificar la consulta SQL para incluir la tabla intermedia tbl_ciclo
 $consulta = "
@@ -32,8 +28,8 @@ LEFT JOIN
 LEFT JOIN 
     tbl_profesores ma ON ci.codigo_profesor = ma.codigo_profesor
 WHERE 
-    ci.anio = '$year'
-    AND ci.estado = 1 
+    ci.estado=0
+
 ";
 
 // Ejecutar la consulta
@@ -64,7 +60,7 @@ while ($registro = mysqli_fetch_assoc($resultado)) {
             <td>{$registro['nombre_profesor']}</td>
             <td>
                 <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"ver.php?id={$registro['codigo_ciclo']}\"'><i class='fas fa-edit'></i></button> 
-                <button class='btn-opcion text-danger'  title='Baja' onclick='window.location.href=\"cambiar_estado.php?id={$registro['codigo_ciclo']}\"'><i class='fas fa-times'></i></button>
+                <button class='btn-opcion text-primary'  title='Baja' onclick='window.location.href=\"habilitar_ciclo.php?id={$registro['codigo_ciclo']}\"'><i class='fas fa-check'></i></button>
             </td>
         </tr>
     ";
@@ -144,14 +140,7 @@ $tabla .= "</tbody></table>";
                 <div class="table-container">
                     <?php echo $tabla; ?>
                 </div>
-                <div class="contenedor">
-                    <div></div>
-                    <button class="btn btn-primary" type="button" onclick="window.location.href='ciclo_inhabil.php';">
-                        Ciclos Inhabiles
-                    </button>
-                </div>
             </div>
-            
         </div>
     </div>
 

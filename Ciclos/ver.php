@@ -1,36 +1,75 @@
 <?php
 
     include('../db_connect.php');
-    $consulta = "SELECT * FROM  tbl_alumnos";
-    $resultado = mysqli_query($conn, $consulta);
-    $data = array();
+    // Obtener el ID del alumno a actualizar desde el parámetro GET
+    $id_ciclo = $_GET['id'];
 
-    if ($resultado->num_rows > 0) {
-        while ($row = $resultado->fetch_assoc()) {
-            $data[] = $row;
-        }
-    }
+    $consulta = "
+    SELECT 
+    ci.codigo_ciclo, 
+    ci.codigo_grado,
+    gr.descripcion,
+    ci.seccion,
+    ci.anio,
+    ci.codigo_profesor,
+    pr.nombre_profesor 
+FROM 
+    tbl_ciclo ci
+LEFT JOIN 
+    tbl_grados gr ON gr.codigo_grado = ci.codigo_grado
+LEFT JOIN
+    tbl_profesores pr ON pr.codigo_profesor = ci.codigo_profesor
+WHERE 
+    ci.codigo_ciclo = $id_ciclo
+";
 
-    $consulta2 = "SELECT * FROM  tbl_grados";
-    $resultado2 = mysqli_query($conn, $consulta2);
-    $data2 = array();
+// Ejecutar la consulta
+$resultado = mysqli_query($conn, $consulta);
+$registro = mysqli_fetch_assoc($resultado);
 
-    if ($resultado2->num_rows > 0) {
-        while ($row2 = $resultado2->fetch_assoc()) {
-            $data2[] = $row2;
-        }
-    }
+    $consulta_alumno = "SELECT al.id_alumno, al.codigo_alumno, CONCAT(al.nombre_alumno, ', ', al.apellido_alumno) as nombre, TIMESTAMPDIFF(YEAR, al.fecha_nacimiento, CURDATE()) AS edad  FROM  tbl_alumnos al
+    JOIN tbl_asignacion_alumno ci ON al.id_alumno = ci.codigo_alumno
+    WHERE ci.codigo_ciclo = $id_ciclo";
+    $resultado_alumno = mysqli_query($conn, $consulta_alumno);
+    
 
-    $consulta3 = "SELECT * FROM  tbl_profesores";
-    $resultado3 = mysqli_query($conn, $consulta3);
-    $data3 = array();
 
-    if ($resultado3->num_rows > 0) {
-        while ($row3 = $resultado3->fetch_assoc()) {
-            $data3[] = $row3;
-        }
-    }
 
+    // Obtener todos los grados para llenar el select
+$consulta_grados = "SELECT codigo_grado, descripcion FROM tbl_grados";
+$resultado_grados = mysqli_query($conn, $consulta_grados);
+   
+// Obtener todos los profesores para llenar el select
+$consulta_profesores = "SELECT codigo_profesor, CONCAT(nombre_profesor, ', ', apellido_profesor) AS nombre_completo   FROM tbl_profesores";
+$resultado_profesores = mysqli_query($conn, $consulta_profesores);
+
+// Generar la tabla
+$tabla = "
+    <table class='table table-striped table-hover' style='width:100%'>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+            </tr>
+        </thead>
+        <tbody>
+";
+
+// Añadir filas a la tabla
+while ($row = mysqli_fetch_assoc($resultado_alumno)) {
+    $tabla .= "
+        <tr>
+            <td>{$row['id_alumno']}</td>
+            <td>{$row['codigo_alumno']}</td>
+            <td>{$row['nombre']}</td>
+            <td>{$row['edad']}</td>
+        </tr>
+    ";
+}
+
+$tabla .= "</tbody></table>";
     
 
 ?>
@@ -82,60 +121,63 @@
         <div class="area2_scrollable-area">
             <!-- Formulario para alumnos -->
             <div class="form-section">
-                <h2 class="textColor">Asignación</h2>
+                <h2 class="textColor">Actualizacion de Ciclo</h2>
                 <!---------------------------Aqui  mediante el post se envia el formulario-->
-                <form action="ac_agregar_ciclo.php" method="POST" id="ingresarAlumno">
+                <form action="ac_actualizar_ciclo.php" method="POST" id="actualizarciclo">
                   <div class="form-row">  
                         <div class="form-group col-md-6">
-                            <label for="alumno">Alumno</label>
-                            <select class="form-control" id="alumno" name="alumno" required>
-                                <option value="">Seleccione un Alumno</option>
-                                <?php foreach ($data as $row): ?>
-                                <option value="<?php echo $row['id_alumno']; ?>"><?php echo $row['nombre_alumno']; ?></option>
-                                <?php endforeach; ?>
+                            <label for="ciclo">Grado</label>
+                            <input type="hidden" name="codigo_ciclo" value="<?php echo $registro['codigo_ciclo']; ?>">
+                            <select class="form-control" id="grado" name="codigo_grado" required>
+                                <option value="">Seleccione un Grado</option>
+                                <?php
+                                while ($row = mysqli_fetch_assoc($resultado_grados)) {
+                                    $selected = ($row['codigo_grado'] == $registro['codigo_grado']) ? 'selected' : '';
+                                    echo "<option value='{$row['codigo_grado']}' $selected>{$row['descripcion']}</option>";
+                                }
+                                ?>
                             </select>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="grado">Grado</label>
-                            <select class="form-control" id="grado" name="grado" required>
-                                <option value="">Seleccione un Grado</option>
-                                <?php foreach ($data2 as $row2): ?>
-                                <option value="<?php echo $row2['codigo_grado']; ?>"><?php echo $row2['descripcion']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-            
-                    
-                        <div class="form-group col-md-6">
                             <label for="profesor">Profesor</label>
                             <select class="form-control" id="profesor" name="profesor" required>
-                                <option value="">Seleccione un Profesor</option>
-                                <?php foreach ($data3 as $row3): ?>
-                                <option value="<?php echo $row3['codigo_profesor']; ?>"><?php echo $row3['nombre_profesor']; ?></option>
-                                <?php endforeach; ?>
+                            <?php
+                                while ($row = mysqli_fetch_assoc($resultado_profesores)) {
+                                    $selected = ($row['codigo_profesor'] == $registro['codigo_profesor']) ? 'selected' : '';
+                                    echo "<option value='{$row['codigo_profesor']}' $selected>{$row['nombre_completo']}</option>";
+                                }
+                                ?>
                             </select>
                         </div>
 
                     
                         <div class="form-group col-md-6">
                             <label for="anio">Año</label>
-                            <input type="number" class="form-control" id="anio" name="anio" required>
+                            <input type="number" class="form-control" id="anio" name="anio" value="<?php echo $registro['anio']; ?>" required>
                         </div>
                     
 
                         <div class="form-group col-md-6">
                             <label for="seccion">Seccion</label>
-                            <input type="text" class="form-control" id="seccion" name="seccion" required>
+                            <input type="text" class="form-control" id="seccion" name="seccion" value="<?php echo $registro['seccion']; ?>" required>
                         </div>
                     </div>
                     
-
                     
 
                     <!-- Botón para guardar todos los datos -->
                     <div class="text-right">
-                        <button type="submit" class="btn-guardar">Guardar todos los datos</button>
+                        <button type="submit" class="btn-guardar">Guardar todos los Cambios</button>
+                    </div>
+                    
+                    <!-- Divider between forms -->
+                    <div class="divider"></div>
+
+                    <div class="table-container">
+                        <br>
+                        <h2 for="seccion" style="text-align: center;">Alumnos Asignados al Ciclo</h2>
+                        <?php echo $tabla; ?>
                     </div>
                 </form>
             </div>

@@ -10,8 +10,7 @@ $consulta = "
     ma.apellido_profesor,
     ma.telefono_profesor,
     TIMESTAMPDIFF(YEAR, ma.fecha_nacimiento, CURDATE()) AS edad, 
-    g.descripcion AS grado, 
-    ci.seccion,
+    GROUP_CONCAT(DISTINCT CONCAT(g.descripcion, ' (', ci.seccion, ')') SEPARATOR ', ') AS grado,
     CONCAT(ma.direccion, ', ', mun.nombre_municipio, ', ', dep.nombre_departamento) AS direccion_completa 
 FROM 
     tbl_profesores ma
@@ -23,6 +22,10 @@ LEFT JOIN
     tbl_departamentos dep ON ma.codigo_departamento = dep.codigo_departamento
 LEFT JOIN 
     tbl_municipios mun ON ma.codigo_municipio = mun.codigo_municipio
+WHERE
+    ma.estado = 1
+GROUP BY 
+    ma.codigo_profesor
 ";
 
 // Ejecutar la consulta
@@ -56,10 +59,9 @@ while ($registro = mysqli_fetch_assoc($resultado)) {
             <td>{$registro['telefono_profesor']}</td>
             <td>{$registro['edad']}</td>
             <td>{$registro['grado']}</td>
-            <td>{$registro['seccion']}</td>
             <td>{$registro['direccion_completa']}</td>
             <td>
-                <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"ver.php?id={$registro['codigo_profesor']}\"'><i class='fas fa-edit'></i></button> 
+                <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"verMaestro.php?id={$registro['codigo_profesor']}\"'><i class='fas fa-edit'></i></button> 
                 <button class='btn-opcion text-danger'  title='Baja' onclick='window.location.href=\"cambiar_estado.php?id={$registro['codigo_profesor']}\"'><i class='fas fa-times'></i></button>
             </td>
         </tr>
@@ -119,6 +121,10 @@ $tabla .= "</tbody></table>";
                 <div class="table-container">
                     <?php echo $tabla; ?>
                 </div>
+                <div class="contenedor">
+                <div></div>
+                <button class="btn-agregar" onclick="window.location.href='Maestros_Inhabilitados.php';">Alumnos Inhabilitados</button>
+            </div>
             </div>
         </div>
 
@@ -126,6 +132,7 @@ $tabla .= "</tbody></table>";
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="buscar_maestro.js"></script>
 </body>
 
 </html>

@@ -68,7 +68,7 @@
                         
                         <div class="form-group col-md-6">
                             <label for="dpi">DPI</label>
-                            <input type="number" class="form-control" id="cui" name="cui" required>
+                            <input type="text" class="form-control" id="cui" name="cui" required>
                         </div>
                     </div>
                     <div class="form-row">

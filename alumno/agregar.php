@@ -21,6 +21,8 @@
         }
     }
 
+    $year = date("Y"); // Obtener el año actual
+
     $consulta3 = "
     SELECT 
         ci.codigo_ciclo, 
@@ -29,6 +31,8 @@
         tbl_ciclo ci
     LEFT JOIN 
         tbl_grados g ON ci.codigo_grado = g.codigo_grado
+    WHERE
+        ci.anio = $year
 ";
 
 $resultado3 = mysqli_query($conn, $consulta3);
@@ -105,7 +109,7 @@ if ($resultado3->num_rows > 0) {
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="cui">CUI</label>
-                            <input type="number" class="form-control" id="cui" name="cui" required>
+                            <input type="text" class="form-control" id="cui" name="cui" required>
                         </div>
 
                         <div class="form-group col-md-6">

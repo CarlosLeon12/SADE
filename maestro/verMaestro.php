@@ -1,3 +1,47 @@
+<?php
+// Conexión a la base de datos
+include('../db_connect.php');
+
+// Obtener el ID del alumno a actualizar desde el parámetro GET
+$id_maestro = $_GET['id'];
+
+// Consulta para obtener los datos del alumno y el responsable
+$consulta = "
+    SELECT 
+    pr.codigo_profesor,  
+    pr.nombre_profesor, 
+    pr.apellido_profesor,
+    pr.telefono_profesor, 
+    pr.fecha_nacimiento, 
+    pr.direccion, 
+    pr.codigo_departamento, 
+    dep.nombre_departamento,
+    pr.codigo_municipio, 
+    mun.nombre_municipio
+FROM 
+    tbl_profesores pr
+LEFT JOIN
+    tbl_departamentos dep ON dep.codigo_departamento = pr.codigo_departamento
+LEFT JOIN
+    tbl_municipios mun ON mun.codigo_municipio = pr.codigo_municipio
+WHERE 
+    pr.codigo_profesor = $id_maestro
+";
+
+// Ejecutar la consulta
+$resultado = mysqli_query($conn, $consulta);
+$maestro = mysqli_fetch_assoc($resultado);
+
+// Obtener todos los departamentos para llenar el select
+$consulta_departamentos = "SELECT codigo_departamento, nombre_departamento FROM tbl_departamentos";
+$resultado_departamentos = mysqli_query($conn, $consulta_departamentos);
+
+// Obtener todos los municipios relacionados al departamento seleccionado
+$consulta_municipios = "SELECT codigo_municipio, nombre_municipio FROM tbl_municipios WHERE codigo_departamento = {$maestro['codigo_departamento']}";
+$resultado_municipios = mysqli_query($conn, $consulta_municipios);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,25 +90,22 @@
             <!-- Formulario para alumnos -->
             <div class="form-section">
                 <h2 class="textColor">Ver Datos del Maestro</h2>
-                <form id="formulario-datos">
+                <form action="ac_actualizar_maestro.php" method="POST" id="formulario-datos">
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="codigo">Código</label>
-                            <input type="number" class="form-control" id="codigo" name="codigo" required>
-                        </div>
+            
                         <div class="form-group col-md-6">
                             <label for="dpi">DPI</label>
-                            <input type="number" class="form-control" id="cui" name="cui" required>
+                            <input type="text" class="form-control" id="cui" name="cui" value="<?php echo $maestro['codigo_profesor']; ?>" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="codigo">Nombres</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $maestro['nombre_profesor']; ?>" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="cui">Apellidos</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido" required>
+                            <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $maestro['apellido_profesor']; ?>" required>
                         </div>
                     </div>
                    
@@ -74,24 +115,52 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="nombre-padre">Telefono</label>
-                            <input type="number" class="form-control" id="telefono" name="telefono" required>
+                            <input type="number" class="form-control" id="telefono" name="telefono" value="<?php echo $maestro['telefono_profesor']; ?>"required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="apellido-padre">Fecha de nacimiento</label>
-                            <input type="date" class="form-control" id="nacimiento" name="nacimiento" required>
+                            <input type="date" class="form-control" id="nacimiento" name="nacimiento" value="<?php echo $maestro['fecha_nacimiento']; ?>"required>
                         </div>
                     </div>
+                    <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="departamento">Departamento</label>
+                    <select class="form-control" id="departamento" name="departamento" required>
+                        <option value="">Seleccione un departamento</option>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($resultado_departamentos)) {
+                            $selected = ($row['codigo_departamento'] == $maestro['codigo_departamento']) ? 'selected' : '';
+                            echo "<option value='{$row['codigo_departamento']}' $selected>{$row['nombre_departamento']}</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- Select de Municipio -->
+                <div class="form-group col-md-6">
+                    <label for="municipio">Municipio</label>
+                    <select class="form-control" id="municipio" name="municipio" required>
+                        <option value="">Seleccione un municipio</option>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($resultado_municipios)) {
+                            $selected = ($row['codigo_municipio'] == $maestro['codigo_municipio']) ? 'selected' : '';
+                            echo "<option value='{$row['codigo_municipio']}' $selected>{$row['nombre_municipio']}</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="apellido-padre">Direccion</label>
-                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                            <input type="text" class="form-control" id="direccion" name="direccion" value="<?php echo $maestro['direccion']; ?>" required>
                         </div>
                     </div>
 
                     <!-- Botón para guardar todos los datos -->
                     <div class="text-right">
-                        <button type="submit" class="btn-guardar">Guardar todos los datos</button>
+                        <button type="submit" class="btn-guardar">Guardar todos los Cambios</button>
                     </div>
                 </form>
             </div>

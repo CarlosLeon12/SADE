@@ -33,7 +33,7 @@ LEFT JOIN
 LEFT JOIN 
     tbl_municipios mun ON al.codigo_municipio = mun.codigo_municipio
 WHERE
-    al.estado=1;
+    al.estado=0;
 ";
 
 // Ejecutar la consulta
@@ -41,7 +41,7 @@ $resultado = mysqli_query($conn, $consulta);
 
 // Generar la tabla
 $tabla = "
-    <table class='table table-striped table-hover' style='width:100%'>
+    <table id='tabla-alumnos' class='table table-striped table-hover' style='width:100%'>
         <thead>
             <tr>
                 <th>No.</th>
@@ -76,7 +76,7 @@ while ($registro = mysqli_fetch_assoc($resultado)) {
             <td>{$registro['nombre_responsable']} {$registro['apellido_responsable']}</td>
             <td>
                 <button class='btn-opcion text-primary'  title='Editar' onclick='window.location.href=\"ver.php?id={$registro['id_alumno']}\"'><i class='fas fa-edit'></i></button> 
-                <button class='btn-opcion text-danger'  title='Baja' onclick='window.location.href=\"cambiar_estado.php?id={$registro['id_alumno']}\"'><i class='fas fa-times'></i></button>
+                <button class='btn-opcion text-primary'  title='Baja' onclick='window.location.href=\"habilitar_alumno.php?id={$registro['id_alumno']}\"'><i class='fas fa-check'></i></button>
             </td>
         </tr>
     ";
@@ -126,18 +126,12 @@ $tabla .= "</tbody></table>";
 
         <div class="area2">
             <br>
-            <h1 class="tit">Alumnos</h1>
+            <h1 class="tit">Alumnos Inhabilitados</h1>
             <div class="contenedor">
                 <input id="input-busqueda" class="form-control input-busqueda" type="text" placeholder="Buscar">
-                <button class="btn-agregar" onclick="window.location.href='asignacion.php';">Asignacion</button>
-                <button class="btn-agregar" onclick="window.location.href='agregar.php';">Agregar</button>
             </div>
             <div class="table-container">
                 <?php echo $tabla; ?>
-            </div>
-            <div class="contenedor">
-                <div></div>
-                <button class="btn-agregar" onclick="window.location.href='Alumnos_Inhabilitados.php';">Alumnos Inhabilitados</button>
             </div>
         </div>
     </div>
@@ -146,7 +140,6 @@ $tabla .= "</tbody></table>";
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../alumno/buscar_alumno.js"></script>
 </body>
 
 </html>
